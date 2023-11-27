@@ -1,6 +1,9 @@
+
+// Variables for my API key and API endpoint //
 var API_KEY = 'e953ec1ebb99034cdb864ea6aabcf420';
 var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}`;
 
+// Function to render weather info in a container and appends to specific container //
 function renderWeather(containerId, data) {
     const container = document.getElementById(containerId);
 
@@ -12,7 +15,7 @@ function renderWeather(containerId, data) {
         <h4>Wind: ${data.wind} MPH</h4>
         <h4>Humidity: ${data.humidity}%</h4>
     `;
-    
+
     container.appendChild(detailsDiv);
 
     const iconDiv = document.createElement("div");
@@ -24,6 +27,8 @@ function renderWeather(containerId, data) {
     container.appendChild(iconDiv);
 }
 
+
+// Function to render weather card in a list and appends to specified list //
 function renderWeatherCard(listId, data) {
     const list = document.getElementById(listId);
 
@@ -40,6 +45,8 @@ function renderWeatherCard(listId, data) {
     list.appendChild(listItem);
 }
 
+
+// Function to render current weather data //
 function renderCurrentWeather(data) {
     const currentWeatherInfo = document.createElement('div');
     currentWeatherInfo.className = "currentWeatherInfo";
@@ -54,6 +61,7 @@ function renderCurrentWeather(data) {
 
 }
 
+// Function to fetch weather data for a city //
 async function fetchWeather(city) {
     return fetch(`${apiUrl}&q=${city}`)
 
@@ -65,6 +73,8 @@ async function fetchWeather(city) {
         });
 }
 
+
+// Event listener for search button //
 var searchBtn = document.getElementById('search-btn');
 searchBtn.addEventListener('click', function (event) {
     event.preventDefault();
@@ -78,6 +88,7 @@ searchBtn.addEventListener('click', function (event) {
 
 });
 
+// Function to create weather forcast for a city //
 async function createForecast(city) {
 
 
@@ -88,8 +99,10 @@ async function createForecast(city) {
     currentWeather.innerHTML = '';
     var cardList = document.getElementById('weather-cards');
     cardList.innerHTML = '';
+    // array to store forecast dates //
     var forecast = [];
 
+    // loop through the collected weather data //
     for (var i = 0; i < data.list.length; i++) {
         var listItem = data.list[i];
         var forecastDate = listItem.dt_txt.split(' ')[0];
@@ -98,6 +111,8 @@ async function createForecast(city) {
         console.log(forecast)
         if (!forecast.includes(forecastDate)) {
             forecast.push(forecastDate);
+
+            // Creates an object with weather data for rendering //
             var weatherData = {
                 date: listItem.dt_txt,
                 iconCode: listItem.weather[0].icon,
@@ -120,6 +135,7 @@ async function createForecast(city) {
     }
 }
 
+// Function to add city to search history //
 function createSavedCity(city) {
     var searchedCity = JSON.parse(localStorage.getItem("searched-city")) || [];
 
@@ -130,6 +146,7 @@ function createSavedCity(city) {
     }
 }
 
+// Function to create and update history buttons //
 function createButtonList() {
     var cities = JSON.parse(localStorage.getItem('searched-city')) || [];
     var weatherInput = document.getElementById('weather-input');
@@ -145,12 +162,14 @@ function createButtonList() {
     }
 }
 
+// Function that converts kelvin to Fahrenheit //
 function kelvinToFahrenheit(kelvin) {
     var celsius = kelvin - 273.15;
     var fahrenheit = (celsius * 9 / 5) + 32;
     return fahrenheit;
 }
 
+// Function called on window load to initi the search history buttons //
 function main() {
     createButtonList();
 
