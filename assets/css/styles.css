@@ -85,7 +85,7 @@ h1{
 
 }
 
-.current-weather {
+.currentWeather {
     color: #FFFFFF;
     display: flex;
     border-radius: 5px;
@@ -95,7 +95,7 @@ h1{
 
 }
 
-.current-weather h2 {
+.currentWeather h2 {
     font-size: 1.7rem;
 }
 
@@ -105,12 +105,12 @@ h1{
     font-weight: 500;
 }
 
-.current-weather .icon img {
+.currentWeather .icon img {
     max-width: 120px;
     margin-top: -15px;
 }
 
-.current-weather .icon h4 {
+.currentWeather .icon h4 {
     text-transform: capitalize;
     margin-top: -10px;
 }
@@ -141,7 +141,7 @@ h1{
 }
 
 @media (max-width: 1400px)  {
-    .weather-data .current-weather {
+    .weather-data .currentWeather {
         padding: 20px;
     }
     .weather-cards {
