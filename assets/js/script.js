@@ -56,9 +56,17 @@ function renderCurrentWeather(data) {
         <h3>Temp: ${data.temperature.toFixed(2)}&#176;F</h3>
         <h3>Wind: ${data.wind} MPH</h3>
         <h3>Humidity: ${data.humidity}%</h3>
-    `
+    `;
+    document.getElementById('currentWeather').innerHTML = '';
     document.getElementById('currentWeather').append(currentWeatherInfo);
 
+}
+
+// Function that converts kelvin to Fahrenheit //
+function kelvinToFahrenheit(kelvin) {
+    var celsius = kelvin - 273.15;
+    var fahrenheit = (celsius * 9 / 5) + 32;
+    return fahrenheit;
 }
 
 // Function to fetch weather data for a city //
@@ -90,8 +98,6 @@ searchBtn.addEventListener('click', function (event) {
 
 // Function to create weather forcast for a city //
 async function createForecast(city) {
-
-
     var data = await fetchWeather(city);
     createSavedCity(city);
 
@@ -107,8 +113,6 @@ async function createForecast(city) {
         var listItem = data.list[i];
         var forecastDate = listItem.dt_txt.split(' ')[0];
 
-
-        console.log(forecast)
         if (!forecast.includes(forecastDate)) {
             forecast.push(forecastDate);
 
@@ -139,12 +143,12 @@ async function createForecast(city) {
 function createSavedCity(city) {
     var searchedCity = JSON.parse(localStorage.getItem("searched-city")) || [];
 
-    if (!searchedCity.includes(city)) {
-        searchedCity.push(city);
+        searchedCity = [city];
         localStorage.setItem("searched-city", JSON.stringify(searchedCity));
-        createButtonList(); // Update the search history buttons
+        // Update the search history buttons //
+        createButtonList(); 
     }
-}
+
 
 // Function to create and update history buttons //
 function createButtonList() {
@@ -159,21 +163,11 @@ function createButtonList() {
         });
         cityButton.innerHTML = cities[i];
         weatherInput.appendChild(cityButton);
+        
     }
 }
 
-// Function that converts kelvin to Fahrenheit //
-function kelvinToFahrenheit(kelvin) {
-    var celsius = kelvin - 273.15;
-    var fahrenheit = (celsius * 9 / 5) + 32;
-    return fahrenheit;
-}
-
 // Function called on window load to initi the search history buttons //
-function main() {
-    createButtonList();
-
-}
 
 window.onload = createButtonList;
 
